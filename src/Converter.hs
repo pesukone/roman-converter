@@ -11,9 +11,9 @@ charToInt _ = Nothing
 
 toIntArray = map charToInt
 
---toNum :: [Integer] -> Integer
+toNum :: [Integer] -> Integer
 toNum [] = 0
 toNum [x] = x
-toNum (x:xs) = if x >= head xs
-                    then x + toNum xs
-                    else head xs - x + toNum (tail xs)
+toNum (x:xs:xss) = if x >= xs
+                       then x + toNum (xs:xss)
+                       else xs - x + toNum xss
