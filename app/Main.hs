@@ -5,7 +5,8 @@ import Converter
 main :: IO ()
 main = do
     putStrLn "Enter a Roman number:"
-    asd <- getLine
-    putStrLn $ case sequence $ toIntArray asd of
-                Nothing -> "Invalid number"
+    number <- getLine
+    let numberArray = sequence $ toIntArray number
+    putStrLn $ case numberArray of
+                Nothing -> "The number is invalid"
                 Just x -> show $ toNum x
