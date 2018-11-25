@@ -32,4 +32,4 @@ onlyOnePreceedingSymbol list = onlyOnePreceedingSymbol' (group list)
 
 onlyOnePreceedingSymbol' [] = True
 onlyOnePreceedingSymbol' [x] = True
-onlyOnePreceedingSymbol' (x:xs) = length x == 1 || head (head xs) < head x
+onlyOnePreceedingSymbol' (x:xs) = (length x == 1 || head (head xs) < head x) && onlyOnePreceedingSymbol' xs
