@@ -8,6 +8,7 @@ validate list = list
                     >>= check noFourInRow
                     >>= check noTooGreatDifferences
                     >>= check dlvNotRepeated
+                    >>= check onlyOnePreceedingSymbol
 
 check :: ([Integer] -> Bool) -> [Integer] -> Maybe [Integer]
 check f list = if f list
@@ -25,3 +26,10 @@ noTooGreatDifferences :: [Integer] -> Bool
 noTooGreatDifferences [] = True
 noTooGreatDifferences [x] = True
 noTooGreatDifferences (x:xs) = (head xs <= 10 * x) && noTooGreatDifferences xs
+
+onlyOnePreceedingSymbol :: [Integer] -> Bool
+onlyOnePreceedingSymbol list = onlyOnePreceedingSymbol' (group list)
+
+onlyOnePreceedingSymbol' [] = True
+onlyOnePreceedingSymbol' [x] = True
+onlyOnePreceedingSymbol' (x:xs) = length x == 1 || head (head xs) < head x
