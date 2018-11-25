@@ -9,6 +9,7 @@ validate list = list
                     >>= check noTooGreatDifferences
                     >>= check dlvNotRepeated
                     >>= check onlyOnePreceedingSymbol
+                    >>= check previousTwoNotSmaller
 
 check :: ([Integer] -> Bool) -> [Integer] -> Maybe [Integer]
 check f list = if f list
@@ -33,3 +34,9 @@ onlyOnePreceedingSymbol list = onlyOnePreceedingSymbol' (group list)
 onlyOnePreceedingSymbol' [] = True
 onlyOnePreceedingSymbol' [x] = True
 onlyOnePreceedingSymbol' (x:xs) = (length x == 1 || head (head xs) < head x) && onlyOnePreceedingSymbol' xs
+
+previousTwoNotSmaller :: [Integer] -> Bool
+previousTwoNotSmaller [] = True
+previousTwoNotSmaller [x] = True
+previousTwoNotSmaller [x,xs] = True
+previousTwoNotSmaller (x:xs:xss) = (x >= xs || x >= head xss || xs > head xss) && previousTwoNotSmaller (xs:xss)
