@@ -2,6 +2,8 @@ module Validation where
 
 import Data.List
 
+-- Yes, I know all this could be done with a single regex
+
 validate :: Maybe [Integer] -> Maybe [Integer]
 validate list = list 
                     >>= check (not . null)
@@ -10,6 +12,7 @@ validate list = list
                     >>= check dlvNotRepeated
                     >>= check onlyOnePreceedingSymbol
                     >>= check previousTwoNotSmaller
+                    >>= check sameSymbolNotOnBothSides
 
 check :: ([Integer] -> Bool) -> [Integer] -> Maybe [Integer]
 check f list = if f list
@@ -40,3 +43,11 @@ previousTwoNotSmaller [] = True
 previousTwoNotSmaller [x] = True
 previousTwoNotSmaller [x,xs] = True
 previousTwoNotSmaller (x:xs:xss) = (x >= xs || x >= head xss || xs > head xss) && previousTwoNotSmaller (xs:xss)
+
+sameSymbolNotOnBothSides :: [Integer] -> Bool
+sameSymbolNotOnBothSides list = sameSymbolNotOnBothSides' $ group list
+
+sameSymbolNotOnBothSides' [] = True
+sameSymbolNotOnBothSides' [x] = True
+sameSymbolNotOnBothSides' [x,xs] = True
+sameSymbolNotOnBothSides' (x:xs:xss) = not (head x == head (head xss)) && sameSymbolNotOnBothSides' (xs:xss)
